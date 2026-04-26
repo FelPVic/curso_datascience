@@ -27,30 +27,36 @@ intro_pharma_ai/
 │
 ├── notebooks/
 │   ├── 01 Introduccion a Jupiter.ipynb              ✅ Existente
-│   ├── 02 Contexto Pipeline.ipynb                   🆕 Nuevo 
+│   ├── 02 Contexto Pipeline.ipynb                   🆕 Nuevo ★
 │   ├── 03 Introduccion a Python.ipynb               ✅ Existente 
-│   ├── NB-03_Quimioinformatica_RDKit.ipynb    ✅ Existente
-│   ├── NB-DATA-01_Coleccion_ChEMBL.ipynb      🆕 Nuevo ★
-│   ├── NB-DATA-02_Curacion_Molecular.ipynb    🆕 Nuevo ★
-│   ├── NB-DATA-03_Features_Espacio_Quimico.ipynb 🆕 Nuevo ★
-│   ├── NB-04_Regresion_Lineal.ipynb           ✅ Existente
-│   ├── NB-05_Data_Science_EDA.ipynb           ✅ Existente
-│   ├── NB-ML-01_Clasificacion_QSAR.ipynb      🆕 Nuevo
-│   ├── NB-07_Primera_Red_Neuronal.ipynb       ✅ Existente
-│   ├── NB-08_PyTorch.ipynb                    ✅ Existente
-│   ├── NB-10_Transfer_Learning.ipynb          ✅ Existente
-│   ├── NB-11_RNN_Generativa.ipynb             ✅ Existente
-│   ├── NB-12_Autoencoders.ipynb               ✅ Existente
-│   ├── NB-13_Graph_Neural_Networks.ipynb      ✅ Existente
-│   ├── NB-STRUCT-01_Docking_AlphaFold.ipynb   🆕 Nuevo
-│   ├── NB-14_Resumen_Cierre.ipynb             ✅ Existente
-│   └── NB-PROJECT_Template_Proyecto.ipynb     🆕 Nuevo
+│   ├── 04 Quimioinformatica y RDKit.ipynb           ✅ Existente
+│   ├── 05 Colección Bases de Datos.ipynb            🆕 Nuevo ★
+│   ├── 06 Curación Molecular.ipynb                  🆕 Nuevo ★
+│   ├── 07 Features y Espacio Quimico.ipynb          🆕 Nuevo ★
+│   ├── 08 Ciencia de Datos.ipynb                    ✅ Existente
+│   ├── 09 Modelos QSAR.ipynb                        🆕 Nuevo ★
+│   ├── 10 Primera Red Neuronal.ipynb                ✅ Existente
+│   ├── 11 PyTorch.ipynb                             ✅ Existente
+│   ├── 12 Redes neuronales con grafos.ipynb         ✅ Existente
+│   ├── 13 Redocking Validación.ipynb                🆕 Nuevo ★
+│   ├── 14 ML con Docking.ipynb                      🆕 Nuevo ★
+│   └── 15 Template Proyecto.ipynb                   🆕 Nuevo ★
 │
-└── data/
-    └── ejemplo_compuestos.csv                 🆕 Dataset de práctica sem 1
+└── files/
+    ├── targets_humanos.csv                 🆕 Dataset de blancos moleculares de humanos almacenados en ChEMBL
+    ├── chembl_203.csv                      🆕 Moleculas almacenadas en ChEMBL del Receptor del Factor de Crecimiento Epidérmico de humanos 
+    └──
 ```
 
-> ★ Los notebooks `NB-DATA-01`, `NB-DATA-02` y `NB-DATA-03` constituyen el núcleo diferenciador del curso.
+> ★ Los notebooks que constituyen el núcleo diferenciador del curso son:
+ - `02 Contexto Pipeline`
+ - `05 Colección Bases de Datos`
+ - `06 Curación Molecular`
+ - `07 Features y Espacio Químico`
+ - `09 Modelos QSAR`
+ - `13 Redocking Validación`
+ - `14 ML con Docking`
+ - `15 Template Proyecto`
 
 ---
 
@@ -63,11 +69,11 @@ El objetivo de esta semana no es el código: es la motivación. Los estudiantes 
 
 | Sesión | Tema | Actividad práctica |
 |--------|------|--------------------|
-| Ses 1 | ¿Por qué IA en descubrimiento de fármacos? Pipeline target → fármaco. Casos: imatinib, nirmatrelvir. Introducción a ChEMBL. | Explorar ChEMBL web: buscar un target (EGFR), leer $IC_{50}$, entender qué es un assay |
-| Ses 2 | Jupyter/Colab, Python básico: variables, tipos, listas, condicionales, ciclos | Ejecutar NB-01 guiado. Mini-reto: clasificar compuestos como activo/inactivo según $IC_{50}$ |
+| Ses 1 | Jupyter/Colab, Python básico: variables, tipos, listas, condicionales, ciclos | Ejecutar NB-01 guiado. Mini-reto: clasificar compuestos como activo/inactivo según $IC_{50}$ |
+| Ses 2 | ¿Por qué IA en descubrimiento de fármacos? Pipeline target → fármaco. Casos: imatinib, nirmatrelvir. Introducción a ChEMBL. | Explorar ChEMBL web: buscar un target (EGFR), leer $IC_{50}$, entender qué es un assay |
 | Ses 3 | Funciones, NumPy, pandas, Matplotlib | Cargar CSV de compuestos, calcular estadísticas de $IC_{50}$, graficar distribución |
 
-**Notebooks:** NB-00 (nuevo), NB-01, NB-02
+**Notebooks:** 01, 02 🆕, 03
 
 ---
 
@@ -82,7 +88,7 @@ La semana que conecta la química que los estudiantes ya saben con la representa
 | Ses 5 | Estructura de ChEMBL: targets, assays, bioactividad. ¿Qué significa $IC_{50}$, $K_i$, $\%$ inhibición? Unidades y contexto farmacológico. | Navegar ChEMBL API desde Python: primer query a un target de interés |
 | Ses 6 | Colección práctica con `chembl_webresource_client`. Filtros por tipo de actividad, organismo, tipo de ensayo. Exportar a DataFrame. | Colectar dataset completo de un target (EGFR o Mpro) para usar en semanas 3 y 4 |
 
-**Notebooks:** NB-03 (existente), NB-DATA-01 🆕
+**Notebooks:** 04, 05 🆕
 
 ---
 
@@ -97,7 +103,7 @@ El módulo más diferenciador del curso. La calidad del modelo depende casi comp
 | Ses 8 | Curación práctica: conversión de unidades, estandarización de SMILES con RDKit, eliminación de sales, clasificación activo/inactivo por umbral de $IC_{50}$. $|_ $Curar $el data$set del target elegido: de dato crudo a dataset limpio |
 | Ses 9 | Descriptores fisicoquímicos (LogP, MW, HBD, HBA, Lipinski). EDA químico. PCA y t-SNE para visualizar el espacio químico. | Crear mapa del espacio químico del dataset curado |
 
-**Notebooks:** NB-DATA-02 🆕, NB-DATA-03 🆕, NB-05 (apoyo EDA)
+**Notebooks:** 06 🆕, 07 🆕
 
 ---
 
@@ -112,7 +118,7 @@ La semana donde se cierra el primer ciclo completo: colectar → curar → model
 | Ses 11 | Clasificación: Random Forest para predecir activo/inactivo. Métricas: AUC-ROC, F1, MCC. Importancia de features. | Entrenar Random Forest. Visualizar curva ROC. Identificar qué descriptores importan más. |
 | Ses 12 | Train/test split, cross-validation. Pipeline completo. Evaluación honesta del modelo. | Pipeline end-to-end: desde CSV de ChEMBL hasta reporte de desempeño del modelo |
 
-**Notebooks:** NB-04 (existente), NB-ML-01 🆕
+**Notebooks:** 08, 09 🆕
 
 ---
 
@@ -127,7 +133,7 @@ Teoría mínima necesaria, siempre anclada a ejemplos moleculares. El objetivo n
 | Ses 14 | Primera red neuronal en PyTorch para predicción de bioactividad. Hiperparámetros básicos: learning rate, epochs, batch size. | Entrenar red neuronal sobre el dataset de la semana 3. Comparar con modelos anteriores. |
 | Ses 15 | Moléculas como grafos: átomos = nodos, enlaces = aristas. Graph Neural Networks (GNN): intuición y aplicación. | Ejecutar NB-13: GNN para predicción de propiedades moleculares |
 
-**Notebooks:** NB-07, NB-08, NB-13 (todos existentes)
+**Notebooks:** 10, 11, 12
 
 ---
 
@@ -138,11 +144,11 @@ La semana del horizonte. El objetivo es mostrar el estado del arte del campo, no
 
 | Sesión | Tema | Actividad práctica |
 |--------|------|--------------------|
-| Ses 16 | Química generativa: RNNs para generación de SMILES válidos. Autoencoders variacionales (VAE) para diseño de novo. Introducción conceptual a REINVENT4. | Generar moléculas con un modelo RNN pre-entrenado. Analizar validez química de las salidas. |
-| Ses 17 | Modelos de lenguaje molecular: ChemBERTa, MolBERT. Transfer learning en química. ¿Qué aprende un modelo de lenguaje sobre moléculas? | Usar embeddings de ChemBERTa para visualizar el espacio químico de un dataset |
-| Ses 18 | Docking molecular básico: AutoDock Vina. AlphaFold3 (introducción). Virtual screening guiado por modelos QSAR. | Demo: preparar ligando + proteína, correr docking, interpretar score de afinidad |
+| Ses 16 | Re-docking y validación del protocolo:  Cubre la preparación completa y la validación con RMSD. Secciones propuestas. Analizar validez química de las salidas. Controles adicionales a poses y puntajes |
+| Ses 17 | Docking en batch + scoring compuesto: Docking en batch: loop sobre todas las moléculas activas de ChEMBL | Conversión de poses | ProLIF: fingerprint de interacciones proteína-ligando | Heatmap de interacciones por tipo y residuo | Scoring compuesto | Ranking final y selección de candidatos 
+| Ses 18 | Función de puntaje blanco especifico: Virtual screening guiado por modelos QSAR. | Creación de modelos de clasificación con Pycaret|
 
-**Notebooks:** NB-11, NB-12, NB-10 (existentes), NB-STRUCT-01 🆕
+**Notebooks:** 13 🆕, 14 🆕
 
 ---
 
@@ -156,22 +162,7 @@ El cierre del ciclo completo. Cada estudiante elige un target de su interés y a
 | Ses 19 | Trabajo en proyecto. Acompañamiento del docente. Resolución de dudas técnicas. | Pipeline completo con target elegido desde semana 1: colección → curación → features → modelo |
 | Ses 20 | Presentaciones (5 min/estudiante). Reflexión crítica: limitaciones, sesgos, ética del dato. ¿Qué sigue? Recursos y comunidades. | Presentar resultados. Discusión grupal sobre calidad de datos y decisiones de modelado. |
 
-**Notebooks:** NB-PROJECT 🆕, NB-14 (cierre conceptual)
-
-
----
-
-## Notebooks nuevos a desarrollar
-
-| Notebook | Semana | Descripción |
-|----------|--------|-------------|
-| `NB-00_Contexto_Pipeline.ipynb` | 1 | Pipeline drug discovery, casos reales (imatinib, nirmatrelvir), primera consulta a ChEMBL |
-| `NB-DATA-01_Coleccion_ChEMBL.ipynb` | 2 | Query por target, filtros por actividad/unidad/organismo, exportar a DataFrame |
-| `NB-DATA-02_Curacion_Molecular.ipynb` | 3 | Limpieza, conversión de unidades, estandarización SMILES, clasificación activo/inactivo |
-| `NB-DATA-03_Features_Espacio_Quimico.ipynb` | 3 | Descriptores fisicoquímicos, PCA, t-SNE, mapa del espacio químico |
-| `NB-ML-01_Clasificacion_QSAR.ipynb` | 4 | Pipeline Random Forest + métricas + interpretación farmacológica |
-| `NB-STRUCT-01_Docking_AlphaFold.ipynb` | 6 | AutoDock Vina básico, visualización, introducción AlphaFold3 |
-| `NB-PROJECT_Template_Proyecto.ipynb` | 7 | Template guiado con target a elección, rúbrica de evaluación integrada |
+**Notebooks:** 15 🆕
 
 ---
 
@@ -218,8 +209,12 @@ Las celdas de instalación (`!pip install ...`) están incluidas al inicio de ca
 
 - Repositorio base: [intro_pharma_ai](https://github.com/FelPVic/intro_pharma_ai)
 - Inspiración: Curso AI4MedChem, Grupo Koch, Universidad de Münster
-- Base de datos: [ChEMBL](https://www.ebi.ac.uk/chembl/) — European Bioinformatics Institute
+- Base de datos: [ChEMBL](https://www.ebi.ac.uk/chembl/) — European Bioinformatics Institute, [PubChem](https://pubchem.ncbi.nlm.nih.gov/) — is the world's largest collection of freely accessible chemical information, [PDB](https://www.rcsb.org/) — Protein Data Bank 
 - Docente: Daniel Felipe Victoria Muñoz QF, Dr. en Química Medicinal, Universidad de Münster · Profesor asociado Fundación Universitaria Salesiana
+- Ng, A., & Soo, K. (2017). Numsense! Data Science for the Layman: No Math Added. Lean Publishing.
+- Patrick, G. (2017). An introduction to medicinal chemistry (6th ed.). Oxford University Press.
+- Artificial Intelligence in Drug Discovery, ed. N. Brown, The Royal Society of Chemistry, 2020.
+- Drug Design, ed. Gerhard Klebe, Springer Berlin, Heidelberg, 2025
 
 ---
 
