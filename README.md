@@ -32,10 +32,30 @@ Este curso nace de la experiencia del programa **AI4MedChem** de la Universidad 
 
 ---
 
+| Notebook | Google Colab |
+| :--- | :--- |
+| **01. Introducción a Jupiter** | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/FelPVic/curso_datascience/blob/main/notebooks/01%20Introduccion%20a%20Jupiter.ipynb) |
+| **02. Contexto Pipeline** | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/FelPVic/curso_datascience/blob/main/notebooks/02%20Contexto%20Pipeline.ipynb) |
+| **03. Introducción a Python** | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/FelPVic/curso_datascience/blob/main/notebooks/03%20Introduccion%20a%20Python.ipynb) |
+| **04. Quimioinformática y RDKit** | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/FelPVic/curso_datascience/blob/main/notebooks/04%20Quimioinformatica%20y%20RDKit.ipynb) |
+| **05. Colección Bases de Datos** | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/FelPVic/curso_datascience/blob/main/notebooks/05%20Colecci%C3%B3n%20Bases%20de%20Datos.ipynb) |
+| **06. Curación Molecular** | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/FelPVic/curso_datascience/blob/main/notebooks/06%20Curaci%C3%B3n%20Molecular.ipynb) |
+| **07. Features y Espacio Químico** | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/FelPVic/curso_datascience/blob/main/notebooks/07%20Features%20y%20Espacio%20Quimico.ipynb) |
+| **08. Ciencia de Datos** | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/FelPVic/curso_datascience/blob/main/notebooks/08%20Ciencia%20de%20Datos.ipynb) |
+| **09. Modelos QSAR** | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/FelPVic/curso_datascience/blob/main/notebooks/09%20Modelos%20QSAR.ipynb) |
+| **10. Primera Red Neuronal** | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/FelPVic/curso_datascience/blob/main/notebooks/10%20Primera%20Red%20Neuronal.ipynb) |
+| **11. PyTorch** | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/FelPVic/curso_datascience/blob/main/notebooks/11%20PyTorch.ipynb) |
+| **12. Redes neuronales con grafos** | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/FelPVic/curso_datascience/blob/main/notebooks/12%20Redes%20neuronales%20con%20grafos.ipynb) |
+| **13. Redocking Validación** | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/FelPVic/curso_datascience/blob/main/notebooks/13%20Redocking%20Validaci%C3%B3n.ipynb) |
+| **14. ML con Docking** | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/FelPVic/curso_datascience/blob/main/notebooks/14%20ML%20con%20Docking.ipynb) |
+| **15. Template Proyecto** | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/FelPVic/curso_datascience/blob/main/notebooks/15%20Template%20Proyecto.ipynb) |
+
+---
+
 ## Estructura del repositorio
 
 ```
-intro_pharma_ai/
+curso_datascience_dd/
 │
 ├── README.md                        ← Este archivo
 │
