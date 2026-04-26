@@ -1,3 +1,17 @@
+<div style="background:linear-gradient(135deg,#0a2540 0%,#1a3a5c 60%,#0f3460 100%);
+            padding:40px 30px;border-radius:12px;text-align:center;margin-bottom:10px;">
+  <h1 style="color:#f4a261;font-size:2em;margin:0 0 8px;">
+    🔬 Ciencia de Datos en Descubrimiento de Fármacos
+  </h1>
+  <h2 style="color:#a8dadc;font-size:1.2em;font-weight:400;margin:0 0 20px;">
+    Curso de extensión · Departamento de Farmacia
+  </h2>
+  <p style="color:#cdd6f4;font-size:0.95em;max-width:660px;margin:0 auto;line-height:1.7;">
+    Universidad Nacional de Colombia · 2026<br>
+    <em>Del 27 de abril al 18 de Junio 2026</em>
+  </p>
+</div>
+
 # Ciencia de Datos en Descubrimiento de Fármacos
 ### Daniel Felipe Victoria Muñoz - Universidad Nacional de Colombia · Extensión UNAL 2026
 
