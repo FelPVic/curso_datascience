@@ -136,7 +136,7 @@ El módulo más diferenciador del curso. La calidad del modelo depende casi comp
 
 | Sesión | Tema | Actividad práctica |
 |--------|------|--------------------|
-| Ses 7 | Problemas del dato crudo: duplicados, valores faltantes, SMILES inválidos, mezcla de unidades ($nM$ vs µ$M$ vs $mg/mL$). | Diagnóstico del dataset de la semana 2: ¿cuántos problemas tiene? |
+| Ses 7 | Problemas del dato crudo: duplicados, valores faltantes, SMILES inválidos, mezcla de unidades ($nM$ vs µ $M$ vs $mg/mL$). | Diagnóstico del dataset de la semana 2: ¿cuántos problemas tiene? |
 | Ses 8 | Curación práctica: conversión de unidades, estandarización de SMILES con RDKit, eliminación de sales, clasificación activo/inactivo por umbral de $IC_{50}$. | Curar el dataset del target elegido: de dato crudo a dataset limpio |
 | Ses 9 | Descriptores fisicoquímicos (LogP, MW, HBD, HBA, Lipinski). EDA químico. PCA y t-SNE para visualizar el espacio químico. | Crear mapa del espacio químico del dataset curado |
 
@@ -177,7 +177,7 @@ Teoría mínima necesaria, siempre anclada a ejemplos moleculares. El objetivo n
 ### Semana 6 — Modelos sobre acoplamientos moleculares: desde el score, hasta los modelos de clasificación
 **6 horas · 3 sesiones**
 
-La semana del horizonte. El objetivo es mostrar el estado del arte del campo, no exigir que los estudiantes dominen estas técnicas.
+La semana del horizonte. El objetivo es mostrar el estado del arte del campo.
 
 | Sesión | Tema | Actividad práctica |
 |--------|------|--------------------|
