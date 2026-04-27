@@ -59,6 +59,8 @@ curso_datascience_dd/
 │
 ├── README.md                        ← Este archivo
 │
+├── LICENSE                        
+|
 ├── notebooks/
 │   ├── 01 Introduccion a Jupiter.ipynb              ✅ Existente
 │   ├── 02 Contexto Pipeline.ipynb                   🆕 Nuevo ★
@@ -79,7 +81,8 @@ curso_datascience_dd/
 └── files/
     ├── targets_humanos.csv                 🆕 Dataset de blancos moleculares de humanos almacenados en ChEMBL
     ├── chembl_203.csv                      🆕 Moleculas almacenadas en ChEMBL del Receptor del Factor de Crecimiento Epidérmico de humanos 
-    └──
+    ├── quinazolinas_en_chembl.csv          🆕 Moleculas con el anillo quinazolinico en ChEMBL 
+    └── 1IVO.pdb                            🆕 Estructura proteica del Receptor del Factor de Crecimiento Epidérmico
 ```
 
 > ★ Los notebooks que constituyen el núcleo diferenciador del curso son:
@@ -133,8 +136,8 @@ El módulo más diferenciador del curso. La calidad del modelo depende casi comp
 
 | Sesión | Tema | Actividad práctica |
 |--------|------|--------------------|
-| Ses 7 | Problemas del dato crudo: duplicados, valores faltantes, SMILES inválidos, mezcla de unidades ($nM$ vs $µM$ vs $mg/mL$). | Diagnóstico del dataset de la semana 2: ¿cuántos problemas tiene? |
-| Ses 8 | Curación práctica: conversión de unidades, estandarización de SMILES con RDKit, eliminación de sales, clasificación activo/inactivo por umbral de $IC_{50}$. $|_ $Curar $el data$set del target elegido: de dato crudo a dataset limpio |
+| Ses 7 | Problemas del dato crudo: duplicados, valores faltantes, SMILES inválidos, mezcla de unidades ($nM$ vs µ$M$ vs $mg/mL$). | Diagnóstico del dataset de la semana 2: ¿cuántos problemas tiene? |
+| Ses 8 | Curación práctica: conversión de unidades, estandarización de SMILES con RDKit, eliminación de sales, clasificación activo/inactivo por umbral de $IC_{50}$. | Curar el dataset del target elegido: de dato crudo a dataset limpio |
 | Ses 9 | Descriptores fisicoquímicos (LogP, MW, HBD, HBA, Lipinski). EDA químico. PCA y t-SNE para visualizar el espacio químico. | Crear mapa del espacio químico del dataset curado |
 
 **Notebooks:** 06 🆕, 07 🆕
@@ -171,7 +174,7 @@ Teoría mínima necesaria, siempre anclada a ejemplos moleculares. El objetivo n
 
 ---
 
-### Semana 6 — Modelos avanzados: generativa, lenguaje y estructura
+### Semana 6 — Modelos sobre acoplamientos moleculares: desde el score, hasta los modelos de clasificación
 **6 horas · 3 sesiones**
 
 La semana del horizonte. El objetivo es mostrar el estado del arte del campo, no exigir que los estudiantes dominen estas técnicas.
@@ -219,7 +222,7 @@ torch
 torch-geometric        # GNNs
 
 # Estructura
-autodock-vina          # Semana 6 (demo)
+autodock-vina          # Semana 6 
 ```
 
 Todos los notebooks están diseñados para ejecutarse en **Google Colab** sin instalación local.  
@@ -233,9 +236,9 @@ Las celdas de instalación (`!pip install ...`) están incluidas al inicio de ca
 
 2. **Dominio primero, código segundo.** Cada concepto computacional se introduce con un ejemplo farmacológico o bioquímico concreto. El código es el medio, no el fin.
 
-3. **Ciclo completo, siempre.** Desde la semana 4, cada sesión práctica produce un output que conecta con la siguiente. Al final del curso, cada estudiante tiene un pipeline real, no ejercicios aislados.
+3. **Ciclo completo, siempre.** Desde la semana 1, cada sesión práctica produce un output que conecta con la siguiente. Al final del curso, cada estudiante tiene un pipeline real, no ejercicios aislados.
 
-4. **Horizonte, no dominio.** Las técnicas avanzadas (GNNs, VAEs, docking) se presentan para que los estudiantes sepan que existen y cuándo pedirlas, no para que las implementen desde cero.
+4. **Horizonte, no dominio.** Las técnicas avanzadas (GNNs, VAEs, docking) se presentan para saber cuando se usan, no para que las implementen desde cero.
 
 ---
 
