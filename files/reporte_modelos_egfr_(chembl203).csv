@@ -1,0 +1,6 @@
+Modelo,Accuracy,F1,MCC,AUC-ROC
+Random Forest,0.8937,0.571,0.5429,0.9178
+XGBoost,0.8777,0.663,0.597,0.9139
+SVM (kernel RBF),0.8805,0.6614,0.5944,0.9089
+Regresión Logística,0.7794,0.5369,0.4561,0.873
+Baseline (mayoritaria),0.8417,0.0,0.0,
