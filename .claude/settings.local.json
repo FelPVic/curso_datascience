@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wsl python3 *)",
+      "Bash(wsl bash *)",
+      "Read(//mnt/wsl/instances/Ubuntu/home/dfvic/curso_datascience/**)",
+      "Bash(python3 -c ' *)",
+      "Bash(python3 *)",
+      "Bash(wsl *)",
+      "Bash(git *)"
+    ]
+  }
+}
