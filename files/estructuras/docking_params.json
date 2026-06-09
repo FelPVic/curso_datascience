@@ -1,0 +1,18 @@
+{
+  "PDB_ID": "7WJO",
+  "LIGAND_CODE": "BGI",
+  "CHAIN_ID": "A",
+  "protein_directory": "estructuras",
+  "pdbqt_directory": "pdbqt",
+  "pocket_center": [
+    20.347857230050224,
+    11.452285603114538,
+    17.000514221191406
+  ],
+  "ligand_box": [
+    12.620999336242676,
+    9.886999130249023,
+    15.08899974822998
+  ],
+  "margen_angstrom": 2.0
+}
