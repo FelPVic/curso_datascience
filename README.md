@@ -48,7 +48,8 @@ Este curso nace de la experiencia del programa **AI4MedChem** de la Universidad 
 | **12. Redes neuronales con grafos** | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/FelPVic/curso_datascience/blob/main/notebooks/12%20-%20Redes%20neuronales%20con%20grafos.ipynb) |
 | **13. Redocking Validación** | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/FelPVic/curso_datascience/blob/main/notebooks/13%20-%20ReDocking%20Validacion.ipynb) |
 | **14. ML con Docking** | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/FelPVic/curso_datascience/blob/main/notebooks/14%20-%20ML%20con%20Docking.ipynb) |
-| **15. Template Proyecto** | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/FelPVic/curso_datascience/blob/main/notebooks/15%20-%20Template%20Proyecto.ipynb) |
+| **15. Clasificacion Docking** | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/FelPVic/curso_datascience/blob/main/notebooks/15%20-%20Clasificacion%20Activos%20Decoys.ipynb) |
+| **16. Template Proyecto** | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/FelPVic/curso_datascience/blob/main/notebooks/16%20-%20Template%20Proyecto.ipynb) |
 
 ---
 
