@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redes Neuronales Artificiales — Guía Profunda</title>
+<style>
+  /* ── Tokens ─────────────────────────────────────────────────── */
+  :root {
+    --bg:       #0D1117;
+    --surface:  #161B22;
+    --surface2: #1A1A2E;
+    --border:   #30363D;
+    --purple:   #6D28D9;
+    --purple-lt:#A78BFA;
+    --teal:     #06B6D4;
+    --teal-lt:  #67E8F9;
+    --yellow:   #FBBF24;
+    --coral:    #F97316;
+    --green:    #10B981;
+    --green-lt: #6EE7B7;
+    --muted:    #94A3B8;
+    --offwhite: #F1F5F9;
+    --white:    #FFFFFF;
+    --code-bg:  #0D1F0D;
+    --code-fg:  #6EE7B7;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Calibri', 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--offwhite);
+    line-height: 1.7;
+    font-size: 16px;
+  }
+
+  /* ── Layout ─────────────────────────────────────────────────── */
+  .container { max-width: 900px; margin: 0 auto; padding: 0 2rem; }
+
+  /* ── Header ─────────────────────────────────────────────────── */
+  header {
+    background: linear-gradient(135deg, #0a1628 0%, #1a1a2e 50%, #0a1628 100%);
+    border-bottom: 1px solid var(--purple);
+    padding: 4rem 0 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(109,40,217,.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 50%, rgba(6,182,212,.10) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .tag {
+    display: inline-block;
+    background: rgba(109,40,217,.2);
+    border: 1px solid var(--purple);
+    color: var(--purple-lt);
+    font-size: .78rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    padding: .3rem .9rem;
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+  }
+  header h1 {
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: .75rem;
+  }
+  header h1 span { color: var(--teal); }
+  header p {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  /* ── TOC ─────────────────────────────────────────────────────── */
+  .toc {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--purple);
+    border-radius: 6px;
+    padding: 1.5rem 2rem;
+    margin: 3rem 0;
+  }
+  .toc h3 {
+    font-size: .85rem;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+  .toc ol { padding-left: 1.2rem; }
+  .toc li { margin: .35rem 0; }
+  .toc a { color: var(--teal-lt); text-decoration: none; font-size: .95rem; }
+  .toc a:hover { color: var(--white); }
+
+  /* ── Sections ───────────────────────────────────────────────── */
+  section { margin: 4rem 0; }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    margin-bottom: 1.25rem;
+  }
+  .section-label .num {
+    background: var(--purple);
+    color: var(--white);
+    font-size: .8rem;
+    font-weight: 700;
+    width: 2rem; height: 2rem;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  h2 {
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: var(--white);
+  }
+  h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--teal-lt);
+    margin: 2rem 0 .75rem;
+  }
+  p { margin-bottom: 1rem; color: var(--offwhite); }
+
+  /* ── Divider ─────────────────────────────────────────────────── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 2rem 0;
+  }
+
+  /* ── Cards ───────────────────────────────────────────────────── */
+  .cards { display: grid; gap: 1rem; margin: 1.5rem 0; }
+  .cards.col2 { grid-template-columns: 1fr 1fr; }
+  .cards.col3 { grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 640px) {
+    .cards.col2, .cards.col3 { grid-template-columns: 1fr; }
+  }
+
+  .card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--purple);
+    border-radius: 6px;
+    padding: 1.25rem;
+  }
+  .card.teal  { border-top-color: var(--teal); }
+  .card.green { border-top-color: var(--green); }
+  .card.yellow{ border-top-color: var(--yellow); }
+  .card.coral { border-top-color: var(--coral); }
+  .card h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: .5rem;
+  }
+  .card.teal   h4 { color: var(--teal-lt); }
+  .card.green  h4 { color: var(--green-lt); }
+  .card.yellow h4 { color: var(--yellow); }
+  .card.coral  h4 { color: var(--coral); }
+  .card p { font-size: .93rem; color: var(--muted); margin: 0; }
+
+  /* ── Neuron diagram ──────────────────────────────────────────── */
+  .neuron-diagram {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+  }
+  .neuron-diagram svg { display: block; margin: 0 auto; }
+
+  /* ── Formula ─────────────────────────────────────────────────── */
+  .formula {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.25rem 1.5rem;
+    margin: 1.25rem 0;
+    font-family: 'Courier New', monospace;
+    font-size: 1.05rem;
+    color: var(--yellow);
+    text-align: center;
+  }
+  .formula .label {
+    display: block;
+    font-family: 'Calibri', sans-serif;
+    font-size: .82rem;
+    color: var(--muted);
+    margin-top: .4rem;
+    text-align: center;
+  }
+
+  /* ── Code ────────────────────────────────────────────────────── */
+  pre {
+    background: var(--code-bg);
+    border: 1px solid #1a3a1a;
+    border-left: 3px solid var(--green);
+    border-radius: 6px;
+    padding: 1.25rem 1.5rem;
+    overflow-x: auto;
+    margin: 1.25rem 0;
+    font-size: .88rem;
+    line-height: 1.65;
+  }
+  code { font-family: 'Consolas', 'Courier New', monospace; color: var(--code-fg); }
+  pre code { color: var(--code-fg); }
+  .kw  { color: #ff79c6; }
+  .cls { color: #8be9fd; }
+  .fn  { color: #50fa7b; }
+  .str { color: #f1fa8c; }
+  .cm  { color: #6272a4; }
+  .num { color: #bd93f9; }
+
+  /* ── Callout ─────────────────────────────────────────────────── */
+  .callout {
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    margin: 1.25rem 0;
+    font-size: .94rem;
+    display: flex;
+    gap: .75rem;
+    align-items: flex-start;
+  }
+  .callout .icon { flex-shrink: 0; font-size: 1.1rem; margin-top: .1rem; }
+  .callout.info  { background: rgba(6,182,212,.1);  border: 1px solid rgba(6,182,212,.3); }
+  .callout.warn  { background: rgba(251,191,36,.08); border: 1px solid rgba(251,191,36,.3); }
+  .callout.tip   { background: rgba(16,185,129,.08); border: 1px solid rgba(16,185,129,.3); }
+  .callout.info p { color: var(--teal-lt); margin: 0; }
+  .callout.warn p { color: var(--yellow);  margin: 0; }
+  .callout.tip  p { color: var(--green-lt);margin: 0; }
+
+  /* ── Table ───────────────────────────────────────────────────── */
+  .table-wrap { overflow-x: auto; margin: 1.5rem 0; }
+  table { width: 100%; border-collapse: collapse; font-size: .93rem; }
+  thead { background: var(--purple); }
+  thead th { color: var(--white); padding: .7rem 1rem; text-align: left; font-weight: 600; }
+  tbody tr:nth-child(even) { background: var(--surface2); }
+  tbody td { padding: .65rem 1rem; color: var(--offwhite); border-bottom: 1px solid var(--border); }
+  tbody td:first-child { color: var(--teal-lt); font-weight: 500; }
+
+  /* ── Step list ───────────────────────────────────────────────── */
+  .steps { counter-reset: step; list-style: none; padding: 0; margin: 1.5rem 0; }
+  .steps li {
+    counter-increment: step;
+    display: flex; gap: 1rem; align-items: flex-start;
+    margin-bottom: 1.25rem;
+  }
+  .steps li::before {
+    content: counter(step);
+    background: var(--purple);
+    color: var(--white);
+    font-size: .8rem; font-weight: 700;
+    width: 1.7rem; height: 1.7rem;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: .15rem;
+  }
+  .steps li strong { color: var(--purple-lt); display: block; margin-bottom: .25rem; }
+  .steps li p { color: var(--muted); font-size: .94rem; margin: 0; }
+
+  /* ── Activation grid ─────────────────────────────────────────── */
+  .act-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1rem; margin: 1.5rem 0; }
+  @media (max-width: 580px) { .act-grid { grid-template-columns: 1fr; } }
+  .act-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.2rem;
+  }
+  .act-card .name { font-weight: 700; font-size: 1rem; color: var(--white); margin-bottom: .3rem; }
+  .act-card .eq   { font-family: monospace; font-size: .9rem; color: var(--yellow); margin-bottom: .55rem; }
+  .act-card .desc { font-size: .88rem; color: var(--muted); margin: 0; }
+  .act-card canvas { display: block; margin: .75rem auto 0; }
+
+  /* ── Architecture visual ─────────────────────────────────────── */
+  .arch-visual {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+  }
+
+  /* ── Footer ─────────────────────────────────────────────────── */
+  footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    text-align: center;
+    padding: 2.5rem 1rem;
+    margin-top: 5rem;
+    color: var(--muted);
+    font-size: .88rem;
+  }
+  footer span { color: var(--purple-lt); }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════════
+     HEADER
+══════════════════════════════════════════════════════════════ -->
+<header>
+  <div class="container">
+    <div class="tag">Guía de referencia · NB-NN-01</div>
+    <h1>Redes <span>Neuronales</span> Artificiales</h1>
+    <p>Una guía técnica profunda: del perceptrón al entrenamiento, regularización y aplicación en QSAR.</p>
+  </div>
+</header>
+
+<div class="container">
+
+<!-- TOC -->
+<nav class="toc">
+  <h3>Contenido</h3>
+  <ol>
+    <li><a href="#s1">La neurona artificial — El perceptrón</a></li>
+    <li><a href="#s2">Funciones de activación</a></li>
+    <li><a href="#s3">Arquitectura — Capas y conexiones</a></li>
+    <li><a href="#s4">Forward pass — Predicción</a></li>
+    <li><a href="#s5">Función de pérdida (Loss)</a></li>
+    <li><a href="#s6">Backpropagation y gradiente</a></li>
+    <li><a href="#s7">Optimizadores</a></li>
+    <li><a href="#s8">Regularización y sobreajuste</a></li>
+    <li><a href="#s9">Implementación en PyTorch</a></li>
+    <li><a href="#s10">Redes neuronales en QSAR</a></li>
+    <li><a href="#s11">Graph Neural Networks (GNN)</a></li>
+  </ol>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════════════
+     1. EL PERCEPTRÓN
+══════════════════════════════════════════════════════════════ -->
+<section id="s1">
+  <div class="section-label">
+    <div class="num">1</div>
+    <h2>La neurona artificial — El perceptrón</h2>
+  </div>
+
+  <p>Una red neuronal artificial está formada por unidades elementales llamadas <strong>neuronas artificiales</strong> o <strong>perceptrones</strong>. Cada neurona es una función matemática que toma múltiples entradas, las combina de forma lineal y aplica una transformación no lineal para producir una salida.</p>
+
+  <p>La inspiración viene de la neurona biológica: las dendritas reciben señales, el soma las integra y el axón transmite la respuesta. La neurona artificial lo traduce en álgebra lineal.</p>
+
+  <!-- Diagrama SVG -->
+  <div class="neuron-diagram">
+    <svg width="680" height="220" viewBox="0 0 680 220">
+      <!-- Inputs -->
+      <rect x="10" y="30" width="60" height="34" rx="4" fill="#1A1A2E" stroke="#06B6D4" stroke-width="1.5"/>
+      <text x="40" y="52" text-anchor="middle" fill="#67E8F9" font-size="14" font-weight="bold">x₁</text>
+      <rect x="10" y="93" width="60" height="34" rx="4" fill="#1A1A2E" stroke="#06B6D4" stroke-width="1.5"/>
+      <text x="40" y="115" text-anchor="middle" fill="#67E8F9" font-size="14" font-weight="bold">x₂</text>
+      <rect x="10" y="156" width="60" height="34" rx="4" fill="#1A1A2E" stroke="#06B6D4" stroke-width="1.5"/>
+      <text x="40" y="178" text-anchor="middle" fill="#67E8F9" font-size="14" font-weight="bold">x₃</text>
+
+      <!-- Lines input → sum -->
+      <line x1="70" y1="47" x2="255" y2="105" stroke="#06B6D4" stroke-width="1.2" stroke-opacity=".7"/>
+      <line x1="70" y1="110" x2="255" y2="110" stroke="#06B6D4" stroke-width="1.2" stroke-opacity=".7"/>
+      <line x1="70" y1="173" x2="255" y2="115" stroke="#06B6D4" stroke-width="1.2" stroke-opacity=".7"/>
+
+      <!-- Weight labels -->
+      <text x="140" y="72" fill="#FBBF24" font-size="12" font-style="italic">w₁</text>
+      <text x="148" y="106" fill="#FBBF24" font-size="12" font-style="italic">w₂</text>
+      <text x="140" y="155" fill="#FBBF24" font-size="12" font-style="italic">w₃</text>
+
+      <!-- Bias -->
+      <rect x="145" y="185" width="60" height="28" rx="4" fill="#1A1A2E" stroke="#FBBF24" stroke-width="1.2" stroke-dasharray="4 2"/>
+      <text x="175" y="204" text-anchor="middle" fill="#FBBF24" font-size="12">b (bias)</text>
+      <line x1="175" y1="185" x2="265" y2="120" stroke="#FBBF24" stroke-width="1" stroke-dasharray="4 2" stroke-opacity=".6"/>
+
+      <!-- Sum node -->
+      <rect x="255" y="88" width="72" height="44" rx="8" fill="#6D28D9"/>
+      <text x="291" y="116" text-anchor="middle" fill="white" font-size="20" font-weight="bold">Σ</text>
+
+      <!-- Line sum → activation -->
+      <line x1="327" y1="110" x2="395" y2="110" stroke="#A78BFA" stroke-width="2"/>
+
+      <!-- Activation node -->
+      <rect x="395" y="88" width="80" height="44" rx="8" fill="#FBBF24"/>
+      <text x="435" y="116" text-anchor="middle" fill="#0D1117" font-size="16" font-weight="bold">f(z)</text>
+
+      <!-- Line activation → output -->
+      <line x1="475" y1="110" x2="560" y2="110" stroke="#10B981" stroke-width="2"/>
+
+      <!-- Output -->
+      <rect x="560" y="93" width="60" height="34" rx="6" fill="#10B981"/>
+      <text x="590" y="115" text-anchor="middle" fill="#0D1117" font-size="15" font-weight="bold">ŷ</text>
+
+      <!-- Labels below -->
+      <text x="291" y="148" text-anchor="middle" fill="#94A3B8" font-size="10">Suma ponderada</text>
+      <text x="435" y="148" text-anchor="middle" fill="#94A3B8" font-size="10">Activación</text>
+      <text x="590" y="143" text-anchor="middle" fill="#94A3B8" font-size="10">Salida</text>
+    </svg>
+  </div>
+
+  <div class="formula">
+    z = w₁·x₁ + w₂·x₂ + w₃·x₃ + b = <strong>w·x + b</strong>
+    <br>ŷ = f(z)
+    <span class="label">z = combinación lineal (preactivación)  ·  ŷ = salida de la neurona  ·  f = función de activación</span>
+  </div>
+
+  <div class="cards col3">
+    <div class="card teal">
+      <h4>Entradas (x)</h4>
+      <p>Los valores de cada feature: descriptores moleculares, bits de fingerprint, píxeles de imagen, etc.</p>
+    </div>
+    <div class="card yellow">
+      <h4>Pesos (w) y sesgo (b)</h4>
+      <p>Los parámetros aprendibles. El peso controla cuánto importa cada entrada. El sesgo desplaza la activación.</p>
+    </div>
+    <div class="card green">
+      <h4>Función de activación f</h4>
+      <p>Introduce no linealidad. Sin ella, apilar capas lineales equivale a una sola capa lineal — el modelo no ganaría expresividad.</p>
+    </div>
+  </div>
+
+  <div class="callout info">
+    <div class="icon">💡</div>
+    <p>Una sola neurona puede resolver problemas linealmente separables (como regresión logística). La potencia real viene de combinar muchas neuronas en capas — cada una aprende una característica distinta del espacio de entrada.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     2. FUNCIONES DE ACTIVACIÓN
+══════════════════════════════════════════════════════════════ -->
+<section id="s2">
+  <div class="section-label">
+    <div class="num">2</div>
+    <h2>Funciones de activación</h2>
+  </div>
+
+  <p>Sin funciones de activación no lineales, una red de N capas es equivalente a una sola transformación lineal — no importa cuántas capas apiles. Las funciones de activación rompen esa linealidad y permiten que la red aprenda relaciones complejas.</p>
+
+  <div class="act-grid">
+    <div class="act-card">
+      <div class="name">Sigmoide &nbsp;σ(z)</div>
+      <div class="eq">σ(z) = 1 / (1 + e⁻ᶻ)</div>
+      <p class="desc">Salida en [0,1]. Ideal para la <strong>capa de salida</strong> de clasificación binaria (interpreta la salida como probabilidad). Problema: gradiente se aplana en extremos → gradiente desvaneciente en redes profundas.</p>
+      <canvas id="c-sigmoid" width="220" height="80"></canvas>
+    </div>
+    <div class="act-card">
+      <div class="name">ReLU</div>
+      <div class="eq">f(z) = max(0, z)</div>
+      <p class="desc">La activación más usada en <strong>capas ocultas</strong>. Computacionalmente eficiente. Evita el gradiente desvaneciente en la zona positiva. Problema: "neuronas muertas" si z siempre es negativo.</p>
+      <canvas id="c-relu" width="220" height="80"></canvas>
+    </div>
+    <div class="act-card">
+      <div class="name">Tanh</div>
+      <div class="eq">f(z) = (eᶻ − e⁻ᶻ) / (eᶻ + e⁻ᶻ)</div>
+      <p class="desc">Salida en [−1,1], centrada en cero. Ventaja sobre sigmoide: gradientes más grandes cerca del origen. Aún sufre gradiente desvaneciente en extremos. Buena para RNNs.</p>
+      <canvas id="c-tanh" width="220" height="80"></canvas>
+    </div>
+    <div class="act-card">
+      <div class="name">Softmax</div>
+      <div class="eq">σ(zᵢ) = eᶻⁱ / Σⱼ eᶻʲ</div>
+      <p class="desc">Convierte un vector de logits en distribución de probabilidades que suma 1.0. Solo para la <strong>capa de salida</strong> en clasificación multiclase. Nunca usarla en capas ocultas.</p>
+      <canvas id="c-softmax" width="220" height="80"></canvas>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Función</th><th>Rango</th><th>Dónde usar</th><th>Problema principal</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Sigmoide</td><td>[0, 1]</td><td>Salida binaria</td><td>Gradiente desvaneciente</td></tr>
+        <tr><td>ReLU</td><td>[0, ∞)</td><td>Capas ocultas</td><td>Neuronas muertas</td></tr>
+        <tr><td>Leaky ReLU</td><td>(−∞, ∞)</td><td>Capas ocultas</td><td>Pendiente negativa pequeña (α=0.01)</td></tr>
+        <tr><td>Tanh</td><td>[−1, 1]</td><td>RNN, capas ocultas</td><td>Gradiente desvaneciente</td></tr>
+        <tr><td>Softmax</td><td>[0,1] suma=1</td><td>Salida multiclase</td><td>No usar en ocultas</td></tr>
+        <tr><td>GELU</td><td>(−∞, ∞)</td><td>Transformers</td><td>Costosa de calcular</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     3. ARQUITECTURA
+══════════════════════════════════════════════════════════════ -->
+<section id="s3">
+  <div class="section-label">
+    <div class="num">3</div>
+    <h2>Arquitectura — Capas y conexiones</h2>
+  </div>
+
+  <p>Una red neuronal feedforward (completamente conectada o densa) organiza las neuronas en <strong>capas</strong>. Cada neurona de una capa está conectada a todas las neuronas de la siguiente. La información fluye en una sola dirección: de la entrada a la salida.</p>
+
+  <!-- Architecture SVG -->
+  <div class="arch-visual">
+    <svg width="640" height="230" viewBox="0 0 640 230">
+      <!-- Layer backgrounds -->
+      <rect x="10" y="10" width="80" height="210" rx="6" fill="#0F1E2A" stroke="#06B6D4" stroke-width="1" stroke-opacity=".5"/>
+      <rect x="140" y="10" width="80" height="210" rx="6" fill="#0F1E2A" stroke="#A78BFA" stroke-width="1" stroke-opacity=".5"/>
+      <rect x="270" y="10" width="80" height="210" rx="6" fill="#0F1E2A" stroke="#A78BFA" stroke-width="1" stroke-opacity=".5"/>
+      <rect x="400" y="10" width="80" height="210" rx="6" fill="#0F1E2A" stroke="#A78BFA" stroke-width="1" stroke-opacity=".5"/>
+      <rect x="530" y="10" width="80" height="210" rx="6" fill="#0F1E2A" stroke="#10B981" stroke-width="1" stroke-opacity=".5"/>
+
+      <!-- Layer labels -->
+      <text x="50" y="205" text-anchor="middle" fill="#06B6D4" font-size="10">Entrada</text>
+      <text x="180" y="205" text-anchor="middle" fill="#A78BFA" font-size="10">Oculta 1</text>
+      <text x="310" y="205" text-anchor="middle" fill="#A78BFA" font-size="10">Oculta 2</text>
+      <text x="440" y="205" text-anchor="middle" fill="#A78BFA" font-size="10">Oculta 3</text>
+      <text x="570" y="205" text-anchor="middle" fill="#10B981" font-size="10">Salida</text>
+
+      <!-- Nodes: entrada (3), oculta1 (4), oculta2 (4), oculta3 (3), salida (2) -->
+      <!-- Positions: layer_x = [50,180,310,440,570], n=[3,4,4,3,2] -->
+      <script>/* computed in JS */</script>
+    </svg>
+  </div>
+
+  <div class="cards col3">
+    <div class="card teal">
+      <h4>Capa de entrada</h4>
+      <p>Una neurona por feature. Sin función de activación — simplemente pasa los valores. Con descriptores Mordred: ~300 neuronas. Con Morgan ECFP4: 2048 neuronas.</p>
+    </div>
+    <div class="card">
+      <h4>Capas ocultas</h4>
+      <p>Aprenden representaciones jerárquicas. Las primeras capas detectan patrones simples; las profundas detectan patrones complejos. Cada capa transforma el espacio de features.</p>
+    </div>
+    <div class="card green">
+      <h4>Capa de salida</h4>
+      <p>Produce la predicción final. 1 neurona + sigmoide para clasificación binaria. N neuronas + softmax para multiclase. 1 neurona lineal para regresión de pIC50.</p>
+    </div>
+  </div>
+
+  <h3>Hiperparámetros de arquitectura</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Hiperparámetro</th><th>Rango típico en QSAR</th><th>Efecto</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Nº de capas ocultas</td><td>2–5</td><td>Más capas → mayor capacidad, más riesgo de sobreajuste</td></tr>
+        <tr><td>Nº de neuronas por capa</td><td>64–1024</td><td>Más neuronas → más parámetros, más expresividad</td></tr>
+        <tr><td>Función de activación</td><td>ReLU (ocultas)</td><td>Define la no linealidad de cada capa</td></tr>
+        <tr><td>Dropout rate</td><td>0.2–0.5</td><td>Regularización: fracción de neuronas desactivadas por batch</td></tr>
+        <tr><td>Batch Normalization</td><td>Después de lineal, antes de activación</td><td>Estabiliza el entrenamiento, permite lr más altos</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     4. FORWARD PASS
+══════════════════════════════════════════════════════════════ -->
+<section id="s4">
+  <div class="section-label">
+    <div class="num">4</div>
+    <h2>Forward pass — Predicción</h2>
+  </div>
+
+  <p>El <strong>forward pass</strong> (o propagación hacia adelante) es el proceso de calcular la predicción de la red dada una entrada. Se ejecuta capa por capa desde la entrada hasta la salida.</p>
+
+  <div class="formula">
+    h⁽¹⁾ = f(W⁽¹⁾·x + b⁽¹⁾)
+    <br>h⁽²⁾ = f(W⁽²⁾·h⁽¹⁾ + b⁽²⁾)
+    <br>ŷ = f_out(W⁽ᴸ⁾·h⁽ᴸ⁻¹⁾ + b⁽ᴸ⁾)
+    <span class="label">W⁽ˡ⁾ = matriz de pesos de la capa l  ·  h⁽ˡ⁾ = activaciones de la capa l  ·  L = número de capas</span>
+  </div>
+
+  <ol class="steps">
+    <li>
+      <strong>Entrada al batch</strong>
+      <p>Se toman B moléculas (batch), cada una representada como vector de n features. Resultado: matriz X de forma [B × n_features].</p>
+    </li>
+    <li>
+      <strong>Capa lineal</strong>
+      <p>Se calcula z = X·Wᵀ + b. La multiplicación de matrices combina todas las entradas con todos los pesos simultáneamente. Resultado: z de forma [B × n_neuronas].</p>
+    </li>
+    <li>
+      <strong>Batch Normalization (opcional)</strong>
+      <p>Normaliza z a media 0 y varianza 1 dentro del batch. Luego escala y desplaza con parámetros aprendibles γ y β. Estabiliza los gradientes.</p>
+    </li>
+    <li>
+      <strong>Función de activación</strong>
+      <p>Se aplica f(z) elemento a elemento. Para capas ocultas: ReLU. Para la capa de salida: sigmoide (binaria) o softmax (multiclase).</p>
+    </li>
+    <li>
+      <strong>Repetir para cada capa</strong>
+      <p>La salida h de cada capa se convierte en la entrada de la siguiente. Al final, ŷ es la predicción final.</p>
+    </li>
+  </ol>
+
+  <pre><code><span class="kw">def</span> <span class="fn">forward_manual</span>(X, pesos, sesgos, activaciones):
+    <span class="cm">"""Ilustración del forward pass capa por capa."""</span>
+    h = X
+    <span class="kw">for</span> W, b, f <span class="kw">in</span> <span class="fn">zip</span>(pesos, sesgos, activaciones):
+        z = h @ W.T + b          <span class="cm"># combinación lineal</span>
+        h = f(z)                  <span class="cm"># función de activación</span>
+    <span class="kw">return</span> h                      <span class="cm"># ŷ = predicción final</span></code></pre>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     5. FUNCIÓN DE PÉRDIDA
+══════════════════════════════════════════════════════════════ -->
+<section id="s5">
+  <div class="section-label">
+    <div class="num">5</div>
+    <h2>Función de pérdida (Loss)</h2>
+  </div>
+
+  <p>La función de pérdida mide qué tan lejos está la predicción ŷ del valor real y. El objetivo del entrenamiento es minimizar esta función ajustando los pesos w.</p>
+
+  <div class="cards col2">
+    <div class="card coral">
+      <h4>Binary Cross-Entropy (BCE)</h4>
+      <p style="font-family:monospace; color:var(--yellow); font-size:.9rem; margin-bottom:.5rem;">
+        L = −[y·log(ŷ) + (1−y)·log(1−ŷ)]
+      </p>
+      <p>Para clasificación binaria (activo/inactivo). Penaliza fuertemente cuando el modelo predice con alta confianza la clase incorrecta. Requiere sigmoide en la capa de salida.</p>
+    </div>
+    <div class="card teal">
+      <h4>MSE — Error Cuadrático Medio</h4>
+      <p style="font-family:monospace; color:var(--yellow); font-size:.9rem; margin-bottom:.5rem;">
+        L = (1/n)·Σ(yᵢ − ŷᵢ)²
+      </p>
+      <p>Para regresión continua (predicción de pIC50). Penaliza los errores grandes cuadráticamente. Sensible a outliers — considerar MAE o Huber si hay muchos.</p>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <div class="icon">⚠️</div>
+    <p>Con clases desbalanceadas (10% activos, 90% inactivos), la BCE estándar tiene sesgo hacia la clase mayoritaria. Solución: usar <code>pos_weight</code> en PyTorch o <code>class_weight='balanced'</code> — equivalente al scale_pos_weight de XGBoost.</p>
+  </div>
+
+  <pre><code><span class="kw">import</span> torch.nn <span class="kw">as</span> nn
+
+<span class="cm"># Clasificación binaria con desbalance</span>
+n_inactivos = <span class="num">850</span>; n_activos = <span class="num">150</span>
+pos_weight = torch.tensor([n_inactivos / n_activos])  <span class="cm"># ≈ 5.67</span>
+criterion = nn.<span class="cls">BCEWithLogitsLoss</span>(pos_weight=pos_weight)
+
+<span class="cm"># BCEWithLogitsLoss combina sigmoide + BCE — más estable numéricamente</span>
+loss = criterion(logits, y_true.float())</code></pre>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     6. BACKPROPAGATION
+══════════════════════════════════════════════════════════════ -->
+<section id="s6">
+  <div class="section-label">
+    <div class="num">6</div>
+    <h2>Backpropagation y gradiente</h2>
+  </div>
+
+  <p>La <strong>backpropagación</strong> (retropropagación del error) es el algoritmo que calcula cómo cada peso contribuye al error total. Usa la <strong>regla de la cadena</strong> del cálculo diferencial para propagar el gradiente de la pérdida desde la capa de salida hacia la entrada.</p>
+
+  <h3>¿Por qué la regla de la cadena?</h3>
+  <p>La red es una composición de funciones: ŷ = fₗ(fₗ₋₁(...f₁(x)...)). Para saber cómo cambia la pérdida L al cambiar un peso w en la capa k, necesitamos la derivada parcial ∂L/∂w, que se calcula descomponiendo la derivada como una cadena:</p>
+
+  <div class="formula">
+    ∂L/∂W⁽ᵏ⁾ = (∂L/∂h⁽ᴸ⁾) · (∂h⁽ᴸ⁾/∂h⁽ᴸ⁻¹⁾) · ... · (∂h⁽ᵏ⁺¹⁾/∂W⁽ᵏ⁾)
+    <span class="label">Regla de la cadena aplicada capa por capa — se propaga el "error" de la salida hacia la entrada</span>
+  </div>
+
+  <ol class="steps">
+    <li>
+      <strong>Calcular el error en la salida</strong>
+      <p>δ⁽ᴸ⁾ = ∂L/∂z⁽ᴸ⁾ — el gradiente de la pérdida respecto a la preactivación de la última capa.</p>
+    </li>
+    <li>
+      <strong>Propagar hacia atrás</strong>
+      <p>Para cada capa k = L-1, L-2, ..., 1: δ⁽ᵏ⁾ = (W⁽ᵏ⁺¹⁾)ᵀ · δ⁽ᵏ⁺¹⁾ ⊙ f'(z⁽ᵏ⁾). ⊙ = producto elemento a elemento.</p>
+    </li>
+    <li>
+      <strong>Calcular gradientes de los pesos</strong>
+      <p>∂L/∂W⁽ᵏ⁾ = δ⁽ᵏ⁾ · (h⁽ᵏ⁻¹⁾)ᵀ y ∂L/∂b⁽ᵏ⁾ = δ⁽ᵏ⁾</p>
+    </li>
+    <li>
+      <strong>Actualizar los pesos</strong>
+      <p>W⁽ᵏ⁾ ← W⁽ᵏ⁾ − η·∂L/∂W⁽ᵏ⁾. El optimizador decide exactamente cómo hacer esta actualización.</p>
+    </li>
+  </ol>
+
+  <div class="callout tip">
+    <div class="icon">✅</div>
+    <p>En PyTorch, <code>loss.backward()</code> ejecuta automáticamente toda la backpropagación usando autograd — el grafo computacional se construye durante el forward pass y se usa para calcular todos los gradientes. No necesitas implementarla manualmente.</p>
+  </div>
+
+  <h3>El problema del gradiente desvaneciente</h3>
+  <p>En redes profundas con activaciones sigmoide o tanh, el gradiente se multiplica por un número pequeño (la derivada de la activación en los extremos ≈ 0) en cada capa. Después de muchas capas, el gradiente se vuelve tan pequeño que los pesos de las primeras capas prácticamente no se actualizan.</p>
+
+  <div class="cards col2">
+    <div class="card">
+      <h4>Problema: gradiente desvaneciente</h4>
+      <p>Con sigmoide: σ'(z) ≤ 0.25 siempre. Multiplicar 0.25 por sí mismo L veces → 0.25^L → 0 muy rápido. Las primeras capas no aprenden.</p>
+    </div>
+    <div class="card green">
+      <h4>Solución: ReLU + Batch Norm</h4>
+      <p>ReLU'(z) = 1 para z > 0 — el gradiente no se atenúa. Batch Normalization mantiene las activaciones en un rango estable entre capas.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- Pegar después de la sección 6 (Backpropagation), antes del divider que lleva a Optimizadores -->
+
+<div class="divider"></div>
+
+<section id="s6b">
+  <div class="section-label">
+    <div class="num">6b</div>
+    <h2>Ajuste de pesos — ¿Cómo aprende la red?</h2>
+  </div>
+
+  <p>Una vez calculados los gradientes con backpropagation, el optimizador los usa para <strong>modificar cada peso en la dirección que reduce la pérdida</strong>. Este proceso se repite para cada batch y cada época hasta que el modelo converge.</p>
+
+  <h3>La intuición geométrica</h3>
+  <p>Imagina la pérdida L como una superficie montañosa en el espacio de todos los pesos. El gradiente apunta hacia la dirección de mayor subida. Para minimizar L, nos movemos en la dirección <em>opuesta</em> al gradiente — descendemos la montaña paso a paso.</p>
+
+  <div class="formula">
+    w_nuevo = w_actual − η · ∂L/∂w
+    <span class="label">η = learning rate (tamaño del paso)  ·  ∂L/∂w = gradiente (dirección de subida)  ·  El signo − = vamos hacia abajo</span>
+  </div>
+
+  <!-- Visualización interactiva del descenso -->
+  <div class="neuron-diagram" style="padding:1.5rem;">
+    <canvas id="c-descent" width="640" height="200" style="display:block;margin:0 auto;cursor:pointer;"></canvas>
+    <p style="text-align:center;font-size:.82rem;color:var(--muted);margin-top:.75rem;">
+      Haz clic para reiniciar la animación. La bola desciende siguiendo el gradiente.
+    </p>
+  </div>
+
+  <h3>El papel del learning rate η</h3>
+  <div class="cards col3">
+    <div class="card coral">
+      <h4>η demasiado grande</h4>
+      <p>El paso es tan grande que salta por encima del mínimo y diverge. La pérdida oscila o sube. El entrenamiento es inestable.</p>
+    </div>
+    <div class="card green">
+      <h4>η adecuado</h4>
+      <p>Converge suavemente hacia el mínimo. Cada actualización reduce la pérdida de forma estable. Típico: 1e-3 con Adam.</p>
+    </div>
+    <div class="card">
+      <h4>η demasiado pequeño</h4>
+      <p>El paso es tan pequeño que tarda muchísimas épocas en converger, o queda atrapado en un mínimo local subóptimo.</p>
+    </div>
+  </div>
+
+  <h3>Ejemplo numérico paso a paso</h3>
+  <p>Supón una red con un solo peso w = 2.0 y una pérdida L = w². El gradiente es ∂L/∂w = 2w. Con η = 0.1:</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Paso</th><th>w actual</th><th>Gradiente (2w)</th><th>Actualización (η·grad)</th><th>w nuevo</th><th>Pérdida (w²)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>0</td><td>2.000</td><td>4.000</td><td>0.400</td><td>1.600</td><td>4.000</td></tr>
+        <tr><td>1</td><td>1.600</td><td>3.200</td><td>0.320</td><td>1.280</td><td>2.560</td></tr>
+        <tr><td>2</td><td>1.280</td><td>2.560</td><td>0.256</td><td>1.024</td><td>1.638</td></tr>
+        <tr><td>3</td><td>1.024</td><td>2.048</td><td>0.205</td><td>0.819</td><td>1.049</td></tr>
+        <tr><td>10</td><td>0.215</td><td>0.429</td><td>0.043</td><td>0.172</td><td>0.046</td></tr>
+        <tr><td>20</td><td>0.023</td><td>0.046</td><td>0.005</td><td>0.018</td><td>0.001</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Cada paso reduce la pérdida un 20% (factor (1-2η)² = 0.8²). Con η = 0.1 converge suavemente. Con η = 0.6, 2η = 1.2 > 1 → el peso oscilaría. Con η = 1.0, diverge.</p>
+
+  <h3>El ciclo completo epoch por epoch</h3>
+  <ol class="steps">
+    <li>
+      <strong>Inicialización de pesos</strong>
+      <p>Se inicializan con valores aleatorios pequeños (Xavier/He initialization). Iniciar con ceros no funciona: todas las neuronas aprenderían lo mismo (simetría).</p>
+    </li>
+    <li>
+      <strong>Forward pass por batch</strong>
+      <p>Se toma un minibatch de B moléculas. Se calcula ŷ = f(x; w) y la pérdida L(ŷ, y). PyTorch registra cada operación en el grafo computacional.</p>
+    </li>
+    <li>
+      <strong>Backpropagation</strong>
+      <p><code>loss.backward()</code> recorre el grafo al revés y calcula ∂L/∂w para cada parámetro. Los gradientes se acumulan en <code>param.grad</code>.</p>
+    </li>
+    <li>
+      <strong>Actualización de pesos</strong>
+      <p><code>optimizer.step()</code> aplica la regla de actualización (SGD, Adam, etc.) usando los gradientes acumulados. Cada peso se desplaza un paso hacia el mínimo.</p>
+    </li>
+    <li>
+      <strong>Limpiar gradientes</strong>
+      <p><code>optimizer.zero_grad()</code> reinicia los gradientes a cero antes del siguiente batch. Si no se hace, los gradientes se acumulan incorrectamente.</p>
+    </li>
+    <li>
+      <strong>Repetir para todos los batches (= 1 época)</strong>
+      <p>Una época = una pasada completa por todos los datos de entrenamiento. Típicamente se necesitan 50–200 épocas para que la red converja.</p>
+    </li>
+  </ol>
+
+  <pre><code><span class="cm"># El orden importa — siempre el mismo:</span>
+<span class="kw">for</span> X_batch, y_batch <span class="kw">in</span> train_loader:
+
+    optimizer.zero_grad()            <span class="cm"># 1. Limpiar gradientes anteriores</span>
+
+    y_pred = modelo(X_batch)         <span class="cm"># 2. Forward pass → calcula ŷ</span>
+    loss   = criterio(y_pred, y_batch)  <span class="cm"># 3. Calcular pérdida L(ŷ, y)</span>
+
+    loss.backward()                  <span class="cm"># 4. Backprop → calcula ∂L/∂w para cada w</span>
+
+    <span class="cm"># Opcional: clip gradientes para evitar explosión</span>
+    nn.utils.clip_grad_norm_(modelo.parameters(), max_norm=<span class="num">1.0</span>)
+
+    optimizer.step()                 <span class="cm"># 5. Actualizar: w ← w − η·∂L/∂w</span>
+
+    <span class="cm"># Inspeccionar gradientes de un peso específico</span>
+    <span class="kw">for</span> name, param <span class="kw">in</span> modelo.named_parameters():
+        <span class="kw">if</span> param.grad <span class="kw">is not</span> <span class="kw">None</span>:
+            grad_norm = param.grad.norm().item()
+            <span class="cm"># grad_norm muy grande → considerar gradient clipping</span>
+            <span class="cm"># grad_norm ≈ 0 → posible gradiente desvaneciente</span></code></pre>
+
+  <div class="callout warn">
+    <div class="icon">⚠️</div>
+    <p>El orden <strong>zero_grad → forward → loss → backward → step</strong> es inviolable en PyTorch. Invertir cualquier paso produce resultados incorrectos sin mensaje de error. El error más común es olvidar <code>zero_grad()</code>, haciendo que los gradientes se acumulen entre batches.</p>
+  </div>
+
+  <h3>Inicialización de pesos — por qué importa</h3>
+  <div class="cards col2">
+    <div class="card coral">
+      <h4>❌ Inicialización en cero</h4>
+      <p>Todas las neuronas de una capa producen la misma salida → reciben el mismo gradiente → aprenden lo mismo. La capa entera actúa como una sola neurona. Nunca hacer esto.</p>
+    </div>
+    <div class="card green">
+      <h4>✅ Xavier / He initialization</h4>
+      <p>Xavier (para tanh/sigmoide): w ~ N(0, √(2/(n_in+n_out))). He (para ReLU): w ~ N(0, √(2/n_in)). PyTorch las aplica automáticamente por defecto al crear capas <code>nn.Linear</code>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     7. OPTIMIZADORES
+══════════════════════════════════════════════════════════════ -->
+<section id="s7">
+  <div class="section-label">
+    <div class="num">7</div>
+    <h2>Optimizadores</h2>
+  </div>
+
+  <p>El optimizador define la regla exacta de actualización de los pesos usando los gradientes calculados por backprop. La elección del optimizador y la <strong>tasa de aprendizaje (η)</strong> son de los hiperparámetros más importantes.</p>
+
+  <div class="cards col2">
+    <div class="card">
+      <h4>SGD — Descenso del gradiente estocástico</h4>
+      <p style="font-family:monospace; font-size:.88rem; color:var(--yellow); margin-bottom:.5rem;">w ← w − η·∂L/∂w</p>
+      <p>El más simple. Actualiza los pesos una vez por batch. Con momentum: acumula gradientes en la dirección correcta y suaviza las oscilaciones. Estable pero lento al converger.</p>
+    </div>
+    <div class="card teal">
+      <h4>Adam — Adaptive Moment Estimation</h4>
+      <p style="font-family:monospace; font-size:.88rem; color:var(--yellow); margin-bottom:.5rem;">m = β₁·m + (1−β₁)·g<br>v = β₂·v + (1−β₂)·g²<br>w ← w − η·m̂/√v̂</p>
+      <p>Mantiene una media móvil del gradiente (m) y su cuadrado (v). Adapta la tasa de aprendizaje por parámetro. El más usado en la práctica. β₁=0.9, β₂=0.999 por defecto.</p>
+    </div>
+    <div class="card yellow">
+      <h4>AdamW</h4>
+      <p>Adam + regularización L2 aplicada directamente a los pesos (weight decay desacoplado). Mejor generalización que Adam estándar. Recomendado para la mayoría de tareas QSAR.</p>
+    </div>
+    <div class="card coral">
+      <h4>Learning Rate Scheduler</h4>
+      <p>Reducir η durante el entrenamiento mejora la convergencia. Opciones: CosineAnnealingLR, ReduceLROnPlateau (reduce lr cuando la validación deja de mejorar), OneCycleLR.</p>
+    </div>
+  </div>
+
+  <div class="callout info">
+    <div class="icon">💡</div>
+    <p>El learning rate es el hiperparámetro más crítico. Demasiado grande: el entrenamiento oscila y diverge. Demasiado pequeño: converge muy lentamente o queda atrapado en mínimos locales. Valor típico inicial: 1e-3 con Adam.</p>
+  </div>
+
+  <pre><code><span class="cm"># Configuración típica para clasificación QSAR</span>
+optimizer = torch.optim.AdamW(
+    model.parameters(),
+    lr=<span class="num">1e-3</span>,
+    weight_decay=<span class="num">1e-4</span>   <span class="cm"># regularización L2</span>
+)
+
+scheduler = torch.optim.lr_scheduler.<span class="cls">ReduceLROnPlateau</span>(
+    optimizer,
+    mode=<span class="str">'min'</span>,          <span class="cm"># minimizar val_loss</span>
+    factor=<span class="num">0.5</span>,          <span class="cm"># reducir lr a la mitad</span>
+    patience=<span class="num">5</span>,          <span class="cm"># esperar 5 épocas sin mejora</span>
+)
+
+<span class="kw">for</span> epoch <span class="kw">in</span> <span class="fn">range</span>(N_EPOCHS):
+    val_loss = train_one_epoch(...)
+    scheduler.step(val_loss)  <span class="cm"># actualizar lr</span></code></pre>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     8. REGULARIZACIÓN
+══════════════════════════════════════════════════════════════ -->
+<section id="s8">
+  <div class="section-label">
+    <div class="num">8</div>
+    <h2>Regularización y sobreajuste</h2>
+  </div>
+
+  <p>Las redes neuronales tienen millones de parámetros y pueden memorizar perfectamente el training set — produciendo pérdida ≈ 0 en train pero fallando completamente en datos nuevos. La regularización previene esto forzando al modelo a aprender patrones generalizables.</p>
+
+  <div class="cards col3">
+    <div class="card coral">
+      <h4>Underfitting</h4>
+      <p>El modelo es demasiado simple o poco entrenado. Error alto tanto en train como en test. Solución: más capacidad (capas, neuronas), más épocas, menos regularización.</p>
+    </div>
+    <div class="card yellow">
+      <h4>Overfitting</h4>
+      <p>El modelo memoriza el training set. Error muy bajo en train, alto en test. Brecha creciente entre las curvas de loss. Solución: regularización.</p>
+    </div>
+    <div class="card green">
+      <h4>Generalización correcta</h4>
+      <p>Curvas de loss de train y test paralelas y cercanas. El modelo aprendió patrones reales, no ruido. Objetivo del entrenamiento.</p>
+    </div>
+  </div>
+
+  <h3>Técnicas de regularización</h3>
+
+  <div class="cards col2">
+    <div class="card teal">
+      <h4>Dropout</h4>
+      <p>Durante cada forward pass del entrenamiento, cada neurona se "desactiva" con probabilidad p (típico: 0.2–0.5). Fuerza a la red a aprender representaciones redundantes — no puede depender de ninguna neurona individual. Se desactiva durante la evaluación.</p>
+      <pre style="margin-top:.75rem;font-size:.82rem;"><code>nn.<span class="cls">Dropout</span>(p=<span class="num">0.3</span>)  <span class="cm"># 30% prob</span></code></pre>
+    </div>
+    <div class="card">
+      <h4>Regularización L2 (Weight Decay)</h4>
+      <p>Añade λ·Σwᵢ² a la función de pérdida. Penaliza pesos grandes — el modelo prefiere soluciones con pesos pequeños y distribuidos. En AdamW se aplica directamente sobre los pesos, no sobre el gradiente.</p>
+      <pre style="margin-top:.75rem;font-size:.82rem;"><code>AdamW(weight_decay=<span class="num">1e-4</span>)</code></pre>
+    </div>
+    <div class="card green">
+      <h4>Early Stopping</h4>
+      <p>Monitoriza la pérdida en un validation set. Si no mejora después de N épocas (patience), detiene el entrenamiento y restaura los pesos del mejor epoch. El validation set debe ser independiente del test set.</p>
+      <pre style="margin-top:.75rem;font-size:.82rem;"><code><span class="kw">if</span> val_loss &lt; best_loss:
+    best_loss = val_loss
+    <span class="fn">save</span>(model)  <span class="cm"># guardar</span></code></pre>
+    </div>
+    <div class="card yellow">
+      <h4>Batch Normalization</h4>
+      <p>Normaliza las activaciones de cada capa a media 0 y varianza 1 dentro del batch. Estabiliza el entrenamiento, permite learning rates más altos, y actúa como regularizador suave. Va entre la capa lineal y la activación.</p>
+      <pre style="margin-top:.75rem;font-size:.82rem;"><code>nn.<span class="cls">Linear</span>(256, 128),
+nn.<span class="cls">BatchNorm1d</span>(128),
+nn.<span class="cls">ReLU</span>(),</code></pre>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     9. PYTORCH
+══════════════════════════════════════════════════════════════ -->
+<section id="s9">
+  <div class="section-label">
+    <div class="num">9</div>
+    <h2>Implementación en PyTorch</h2>
+  </div>
+
+  <p>PyTorch define redes neuronales como clases Python que heredan de <code>nn.Module</code>. Cada capa es un objeto con parámetros aprendibles. El autograd construye el grafo computacional durante el forward pass y lo usa para backpropagación automática.</p>
+
+  <h3>Definición de la arquitectura</h3>
+  <pre><code><span class="kw">import</span> torch
+<span class="kw">import</span> torch.nn <span class="kw">as</span> nn
+
+<span class="kw">class</span> <span class="cls">RedQSAR</span>(nn.Module):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, n_features, n_hidden=[<span class="num">256</span>,<span class="num">128</span>,<span class="num">64</span>], dropout=<span class="num">0.3</span>):
+        <span class="fn">super</span>().__init__()
+        capas = []
+        prev = n_features
+        <span class="kw">for</span> n <span class="kw">in</span> n_hidden:
+            capas += [
+                nn.<span class="cls">Linear</span>(prev, n),     <span class="cm"># capa lineal: y = xW + b</span>
+                nn.<span class="cls">BatchNorm1d</span>(n),      <span class="cm"># normalización de batch</span>
+                nn.<span class="cls">ReLU</span>(),              <span class="cm"># activación no lineal</span>
+                nn.<span class="cls">Dropout</span>(dropout),   <span class="cm"># regularización</span>
+            ]
+            prev = n
+        capas.append(nn.<span class="cls">Linear</span>(prev, <span class="num">1</span>)) <span class="cm"># capa de salida (logit)</span>
+        self.red = nn.<span class="cls">Sequential</span>(*capas)
+
+    <span class="kw">def</span> <span class="fn">forward</span>(self, x):
+        <span class="cm"># BCEWithLogitsLoss aplica sigmoide internamente</span>
+        <span class="kw">return</span> self.red(x).squeeze(<span class="num">-1</span>)
+
+modelo = <span class="cls">RedQSAR</span>(n_features=<span class="num">300</span>)
+<span class="fn">print</span>(f<span class="str">"Parámetros: {sum(p.numel() for p in modelo.parameters()):,}"</span>)</code></pre>
+
+  <h3>Loop de entrenamiento completo</h3>
+  <pre><code><span class="kw">from</span> torch.utils.data <span class="kw">import</span> TensorDataset, DataLoader
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> roc_auc_score
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+<span class="cm"># Preparar datos</span>
+X_t = torch.<span class="fn">FloatTensor</span>(X_train)
+y_t = torch.<span class="fn">FloatTensor</span>(y_train)
+train_ds = <span class="cls">TensorDataset</span>(X_t, y_t)
+train_dl = <span class="cls">DataLoader</span>(train_ds, batch_size=<span class="num">64</span>, shuffle=<span class="kw">True</span>)
+
+<span class="cm"># Configurar pérdida con pesos de clase</span>
+pos_w    = torch.tensor([(y_train==<span class="num">0</span>).sum() / (y_train==<span class="num">1</span>).sum()])
+criterio = nn.<span class="cls">BCEWithLogitsLoss</span>(pos_weight=pos_w)
+optim    = torch.optim.AdamW(modelo.parameters(), lr=<span class="num">1e-3</span>, weight_decay=<span class="num">1e-4</span>)
+
+best_auc, patience_cnt = <span class="num">0</span>, <span class="num">0</span>
+PATIENCE = <span class="num">15</span>
+
+<span class="kw">for</span> epoch <span class="kw">in</span> <span class="fn">range</span>(<span class="num">200</span>):
+    <span class="cm"># ── Entrenamiento ─────────────────────────────────</span>
+    modelo.train()
+    for X_b, y_b <span class="kw">in</span> train_dl:
+        optim.zero_grad()               <span class="cm"># limpiar gradientes</span>
+        logits = modelo(X_b)            <span class="cm"># forward pass</span>
+        loss   = criterio(logits, y_b)  <span class="cm"># calcular pérdida</span>
+        loss.backward()                 <span class="cm"># backpropagación</span>
+        optim.step()                    <span class="cm"># actualizar pesos</span>
+
+    <span class="cm"># ── Validación ────────────────────────────────────</span>
+    modelo.eval()
+    <span class="kw">with</span> torch.no_grad():
+        logits_val = modelo(torch.<span class="fn">FloatTensor</span>(X_val))
+        proba_val  = torch.<span class="fn">sigmoid</span>(logits_val).numpy()
+        auc        = <span class="fn">roc_auc_score</span>(y_val, proba_val)
+
+    <span class="cm"># ── Early stopping ────────────────────────────────</span>
+    <span class="kw">if</span> auc > best_auc:
+        best_auc = auc
+        torch.<span class="fn">save</span>(modelo.state_dict(), <span class="str">'best_model.pt'</span>)
+        patience_cnt = <span class="num">0</span>
+    <span class="kw">else</span>:
+        patience_cnt += <span class="num">1</span>
+        <span class="kw">if</span> patience_cnt >= PATIENCE:
+            <span class="fn">print</span>(f<span class="str">"Early stopping en época {epoch}"</span>)
+            <span class="kw">break</span>
+
+<span class="cm"># Cargar el mejor modelo</span>
+modelo.load_state_dict(torch.<span class="fn">load</span>(<span class="str">'best_model.pt'</span>))</code></pre>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     10. QSAR
+══════════════════════════════════════════════════════════════ -->
+<section id="s10">
+  <div class="section-label">
+    <div class="num">10</div>
+    <h2>Redes neuronales en QSAR</h2>
+  </div>
+
+  <p>Las redes neuronales se aplican en QSAR cuando los patrones que relacionan estructura y actividad son demasiado complejos para modelos lineales o cuando el dataset es suficientemente grande para que la capacidad adicional sea beneficiosa.</p>
+
+  <h3>¿Cuándo usar redes vs modelos clásicos?</h3>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Criterio</th><th>RF / XGBoost</th><th>Red Neuronal</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Tamaño del dataset</td><td>≥ 500 moléculas</td><td>≥ 5 000 recomendado</td></tr>
+        <tr><td>Interpretabilidad</td><td>Feature importance directa</td><td>Caja negra (requiere SHAP, GradCAM)</td></tr>
+        <tr><td>Escalado requerido</td><td>No</td><td>Sí — StandardScaler obligatorio</td></tr>
+        <tr><td>AUC típico EGFR</td><td>0.88–0.93</td><td>0.88–0.94 (con datos suficientes)</td></tr>
+        <tr><td>Tiempo entrenamiento</td><td>1–5 min</td><td>10 min–horas (GPU acelera 10–100×)</td></tr>
+        <tr><td>Y-scrambling</td><td>Obligatorio</td><td>Obligatorio — misma lógica</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout tip">
+    <div class="icon">✅</div>
+    <p>Regla práctica: empieza siempre con Random Forest o XGBoost. Si supera AUC 0.90 con validación cruzada robusta, una red neuronal difícilmente lo mejorará de forma significativa. Usa redes cuando tienes &gt;10 000 moléculas, datos heterogéneos (multi-modal), o quieres aprender directamente desde la estructura del grafo molecular.</p>
+  </div>
+
+  <h3>Consideraciones específicas para QSAR</h3>
+  <div class="cards col2">
+    <div class="card">
+      <h4>Desbalance de clases</h4>
+      <p>En QSAR con umbral ≥ 8 (pIC50), los activos son el 10–20% del dataset. Usar <code>BCEWithLogitsLoss(pos_weight=ratio)</code> o SMOTE solo sobre el training set. El Y-scrambling es especialmente importante para detectar data leakage.</p>
+    </div>
+    <div class="card teal">
+      <h4>Escalado de features</h4>
+      <p>Los descriptores Mordred tienen escalas muy distintas (MW ≈ 300, TPSA ≈ 60, HBD ≈ 3). Sin StandardScaler, los pesos de la primera capa serán dominados por los features de mayor escala. Ajustar el scaler solo sobre X_train.</p>
+    </div>
+    <div class="card green">
+      <h4>Fingerprints binarios</h4>
+      <p>Morgan ECFP4 (2048 bits) es muy disperso — el 95%+ de los bits son 0. Para redes, considerar reducir dimensión con PCA antes, o usar Embedding inicial que convierta los bits en vectores densos.</p>
+    </div>
+    <div class="card yellow">
+      <h4>Dominio de aplicabilidad</h4>
+      <p>En redes neuronales, el DA se puede estimar con la incertidumbre de predicción usando Monte Carlo Dropout: activar dropout en inferencia y hacer N predicciones. La varianza entre predicciones indica la incertidumbre.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     11. GNN
+══════════════════════════════════════════════════════════════ -->
+<section id="s11">
+  <div class="section-label">
+    <div class="num">11</div>
+    <h2>Graph Neural Networks (GNN)</h2>
+  </div>
+
+  <p>Las GNNs representan el estado del arte en predicción molecular porque procesan directamente el grafo molecular — sin necesidad de calcular descriptores ni fingerprints. La molécula es el grafo: <strong>átomos = nodos</strong>, <strong>enlaces = aristas</strong>.</p>
+
+  <div class="formula">
+    h_v^(l+1) = σ(W · AGGREGATE({h_u^(l) : u ∈ N(v)}) + b)
+    <span class="label">h_v = embedding del átomo v  ·  N(v) = vecinos de v  ·  l = número de capa de message passing</span>
+  </div>
+
+  <p>En cada capa de message passing, cada átomo agrega la información de sus vecinos inmediatos. Después de L capas, cada átomo tiene un embedding que captura el contexto a L enlaces de distancia — análogo al radio en los fingerprints de Morgan.</p>
+
+  <h3>Ventajas sobre fingerprints tradicionales</h3>
+  <div class="cards col3">
+    <div class="card teal">
+      <h4>Aprendizaje end-to-end</h4>
+      <p>La red aprende qué información estructural es relevante para el target específico — no depende de descriptores calculados manualmente.</p>
+    </div>
+    <div class="card">
+      <h4>Información estereoquímica</h4>
+      <p>Puede incorporar quiralidad, geometría 3D y otras propiedades que los fingerprints clásicos no capturan bien.</p>
+    </div>
+    <div class="card green">
+      <h4>Multi-tarea</h4>
+      <p>Un modelo GNN puede predecir múltiples propiedades (ADMET, toxicidad, actividad) simultáneamente desde la misma representación molecular.</p>
+    </div>
+  </div>
+
+  <h3>Librerías disponibles</h3>
+  <div class="cards col3">
+    <div class="card coral">
+      <h4>PyTorch Geometric</h4>
+      <p>La más completa. Implementa GCN, GAT, MPNN, DimeNet++, SchNet. Gran comunidad y documentación.</p>
+    </div>
+    <div class="card yellow">
+      <h4>DGL</h4>
+      <p>Deep Graph Library. Multi-backend (PyTorch / TensorFlow). Muy eficiente para grafos grandes.</p>
+    </div>
+    <div class="card teal">
+      <h4>DeepChem</h4>
+      <p>Enfocado en química y biología computacional. Integra GNNs + datasets moleculares estándar + splits por scaffold.</p>
+    </div>
+  </div>
+
+  <pre><code><span class="kw">from</span> torch_geometric.nn <span class="kw">import</span> GCNConv, global_mean_pool
+<span class="kw">from</span> torch_geometric.data <span class="kw">import</span> Data
+
+<span class="kw">class</span> <span class="cls">GCN_QSAR</span>(nn.Module):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, n_node_features, n_hidden=<span class="num">128</span>):
+        <span class="fn">super</span>().__init__()
+        <span class="cm"># Capas de message passing</span>
+        self.conv1 = <span class="cls">GCNConv</span>(n_node_features, n_hidden)
+        self.conv2 = <span class="cls">GCNConv</span>(n_hidden, n_hidden)
+        self.conv3 = <span class="cls">GCNConv</span>(n_hidden, n_hidden)
+        <span class="cm"># Clasificador final</span>
+        self.cls = nn.<span class="cls">Linear</span>(n_hidden, <span class="num">1</span>)
+
+    <span class="kw">def</span> <span class="fn">forward</span>(self, x, edge_index, batch):
+        <span class="cm"># Message passing sobre el grafo molecular</span>
+        h = nn.functional.<span class="fn">relu</span>(self.conv1(x, edge_index))
+        h = nn.functional.<span class="fn">relu</span>(self.conv2(h, edge_index))
+        h = self.conv3(h, edge_index)
+        <span class="cm"># Readout: agregar nodos → representación de la molécula</span>
+        h = <span class="fn">global_mean_pool</span>(h, batch)
+        <span class="kw">return</span> self.cls(h).squeeze(<span class="num">-1</span>)</code></pre>
+</section>
+
+</div><!-- /container -->
+
+<footer>
+  <strong>Redes Neuronales Artificiales</strong> — Curso de Ciencia de Datos en Descubrimiento de Fármacos<br>
+  <span>Universidad Nacional de Colombia · 2026</span>
+</footer>
+
+<!-- ── Canvas charts ──────────────────────────────────────────── -->
+<script>
+function drawActivation(canvasId, fn, color) {
+  const c = document.getElementById(canvasId);
+  if (!c) return;
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  ctx.clearRect(0, 0, W, H);
+
+  // Axes
+  ctx.strokeStyle = '#30363D'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(0, H/2); ctx.lineTo(W, H/2); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(W/2, 0); ctx.lineTo(W/2, H); ctx.stroke();
+
+  // Curve
+  ctx.strokeStyle = color; ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  for (let px = 0; px < W; px++) {
+    const z = (px / W - 0.5) * 8; // z from -4 to 4
+    const y = fn(z);
+    // Map y to canvas (invert y axis)
+    const py = H/2 - y * (H/2 - 8);
+    if (px === 0) ctx.moveTo(px, py);
+    else ctx.lineTo(px, py);
+  }
+  ctx.stroke();
+}
+
+const sigmoid = z => 1 / (1 + Math.exp(-z));
+const relu    = z => Math.max(0, z) / 4;
+const tanh_f  = z => Math.tanh(z);
+const softmax = z => sigmoid(z); // approx for single output
+
+window.addEventListener('load', () => {
+  drawActivation('c-sigmoid', sigmoid,  '#06B6D4');
+  drawActivation('c-relu',    relu,     '#10B981');
+  drawActivation('c-tanh',    tanh_f,   '#A78BFA');
+  drawActivation('c-softmax', softmax,  '#FBBF24');
+
+  // Draw architecture SVG nodes
+  const svg = document.querySelector('.arch-visual svg');
+  if (!svg) return;
+
+  const layers = [
+    { x: 50,  nodes: 3, color: '#06B6D4' },
+    { x: 180, nodes: 4, color: '#A78BFA' },
+    { x: 310, nodes: 4, color: '#A78BFA' },
+    { x: 440, nodes: 3, color: '#10B981' },
+    { x: 570, nodes: 2, color: '#FBBF24' },
+  ];
+
+  const ns = 'http://www.w3.org/2000/svg';
+
+  function node(x, y, color) {
+    const c = document.createElementNS(ns, 'circle');
+    c.setAttribute('cx', x); c.setAttribute('cy', y);
+    c.setAttribute('r', 14); c.setAttribute('fill', color);
+    c.setAttribute('fill-opacity', '0.85');
+    return c;
+  }
+
+  // Draw connections first (behind nodes)
+  for (let li = 0; li < layers.length - 1; li++) {
+    const src = layers[li], dst = layers[li+1];
+    const srcH = 210 / (src.nodes + 1);
+    const dstH = 210 / (dst.nodes + 1);
+    for (let si = 0; si < src.nodes; si++) {
+      for (let di = 0; di < dst.nodes; di++) {
+        const line = document.createElementNS(ns, 'line');
+        line.setAttribute('x1', src.x); line.setAttribute('y1', srcH*(si+1)+5);
+        line.setAttribute('x2', dst.x); line.setAttribute('y2', dstH*(di+1)+5);
+        line.setAttribute('stroke', '#30363D'); line.setAttribute('stroke-width', '1');
+        svg.appendChild(line);
+      }
+    }
+  }
+
+  // Draw nodes
+  layers.forEach(layer => {
+    const step = 210 / (layer.nodes + 1);
+    for (let i = 0; i < layer.nodes; i++) {
+      svg.appendChild(node(layer.x, step * (i+1) + 5, layer.color));
+    }
+  });
+});
+
+// ── Animación descenso del gradiente ─────────────────────────────────
+(function() {
+  const c = document.getElementById('c-descent');
+  if (!c) return;
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+
+  // Función de pérdida: L(w) = 0.3*(w-0.3)^4 + 0.5*(w+0.6)^2 + algo de ruido visual
+  const loss = w => 0.4*Math.pow(w-0.25,4) + 0.15*Math.pow(w+0.5,2) + 0.05;
+  const grad = w => 1.6*Math.pow(w-0.25,3) + 0.3*(w+0.5);
+
+  let w = -0.85, lr = 0.08, trail = [], animId = null;
+
+  function wToX(w) { return (w + 1) / 2 * (W - 60) + 30; }
+  function lToY(l) { return H - 20 - l * (H - 40) / 1.2; }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    // Grid
+    ctx.strokeStyle = '#1a2030'; ctx.lineWidth = 1;
+    for (let gx = 30; gx < W-30; gx += 60) {
+      ctx.beginPath(); ctx.moveTo(gx,10); ctx.lineTo(gx,H-10); ctx.stroke();
+    }
+
+    // Loss curve
+    ctx.beginPath(); ctx.strokeStyle = '#A78BFA'; ctx.lineWidth = 2.5;
+    for (let px = 30; px < W-30; px++) {
+      const ww = (px-30)/(W-60)*2 - 1;
+      const ly = lToY(loss(ww));
+      px===30 ? ctx.moveTo(px,ly) : ctx.lineTo(px,ly);
+    }
+    ctx.stroke();
+
+    // Trail
+    trail.forEach((pt, i) => {
+      ctx.beginPath();
+      ctx.arc(wToX(pt.w), lToY(pt.l), 3, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(16,185,129,${i/trail.length*0.5})`;
+      ctx.fill();
+    });
+
+    // Gradient arrow
+    const g = grad(w);
+    const cx_ = wToX(w), cy_ = lToY(loss(w));
+    const dx = -g * 40;
+    ctx.beginPath(); ctx.strokeStyle = '#FBBF24'; ctx.lineWidth = 2;
+    ctx.moveTo(cx_, cy_); ctx.lineTo(cx_+dx, cy_);
+    ctx.stroke();
+    ctx.beginPath(); ctx.fillStyle = '#FBBF24';
+    ctx.arc(cx_+dx, cy_, 4, 0, Math.PI*2); ctx.fill();
+
+    // Current position
+    ctx.beginPath();
+    ctx.arc(cx_, cy_, 8, 0, Math.PI*2);
+    ctx.fillStyle = '#10B981'; ctx.fill();
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
+
+    // Labels
+    ctx.fillStyle = '#94A3B8'; ctx.font = '11px Calibri';
+    ctx.fillText('w = ' + w.toFixed(3), 10, 18);
+    ctx.fillText('L = ' + loss(w).toFixed(3), 10, 34);
+    ctx.fillText('∂L/∂w = ' + g.toFixed(3), 10, 50);
+  }
+
+  function step() {
+    trail.push({w, l: loss(w)});
+    if (trail.length > 40) trail.shift();
+    const g = grad(w);
+    w = w - lr * g;
+    if (w < -1) w = -1; if (w > 1) w = 1;
+    draw();
+    if (Math.abs(g) > 0.002 && trail.length < 120) {
+      animId = requestAnimationFrame(step);
+    }
+  }
+
+  function reset() {
+    if (animId) cancelAnimationFrame(animId);
+    w = -0.85 + (Math.random()-0.5)*0.3;
+    trail = []; step();
+  }
+
+  c.addEventListener('click', reset);
+  window.addEventListener('load', () => setTimeout(reset, 600));
+})();
+
+
+
+</script>
+
+</body>
+</html>
